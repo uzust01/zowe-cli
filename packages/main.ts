@@ -14,6 +14,7 @@
 import { IImperativeConfig, Imperative } from "@brightside/imperative";
 import { Constants } from "./Constants";
 import { inspect } from "util";
+import { PerfTiming } from "@zowe/perf-timing";
 
 // TODO(Kelosky): if we remove this, imperative fails to find config in package.json & we must debug this.
 const config: IImperativeConfig = {
@@ -22,7 +23,11 @@ const config: IImperativeConfig = {
 
 (async () => {
     try {
+        PerfTiming.getApi().mark("start");
         await Imperative.init(config);
+        PerfTiming.getApi().mark("end");
+        PerfTiming.getApi().measure("start to end", "start", "end");
+
         Imperative.api.appLogger.trace("Init was successful");
         Imperative.parse();
     }
