@@ -9,12 +9,15 @@
 * Copyright Contributors to the Zowe Project.
 *
 */
+import { PerfTiming } from "@zowe/perf-timing";
 
+const timingApi = PerfTiming.getApi();
+
+timingApi.mark("pre-init");
 
 import { IImperativeConfig, Imperative } from "@brightside/imperative";
 import { Constants } from "./Constants";
 import { inspect } from "util";
-import { PerfTiming } from "@zowe/perf-timing";
 
 // TODO(Kelosky): if we remove this, imperative fails to find config in package.json & we must debug this.
 const config: IImperativeConfig = {
@@ -22,14 +25,21 @@ const config: IImperativeConfig = {
 };
 
 (async () => {
+    timingApi.mark("post-init");
+    timingApi.measure("time to get into brightside main function", "pre-init", "post-init");
+
     try {
-        PerfTiming.getApi().mark("start");
+        timingApi.mark("before init");
         await Imperative.init(config);
-        PerfTiming.getApi().mark("end");
-        PerfTiming.getApi().measure("start to end", "start", "end");
+        timingApi.mark("after init");
+        timingApi.measure("imperative.init", "before init", "after init");
 
         Imperative.api.appLogger.trace("Init was successful");
+
+        timingApi.mark("before parse");
         Imperative.parse();
+        timingApi.mark("after parse");
+        timingApi.measure("Imperative.parse", "before parse", "after parse");
     }
     catch (initErr) {
         Imperative.console.fatal("Error initializing " + Constants.DISPLAY_NAME +
