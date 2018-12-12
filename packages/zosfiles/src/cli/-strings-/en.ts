@@ -356,6 +356,17 @@ export default {
                     EX1: `Upload to the USS file "/a/ibmuser/my_text.txt" from the file "file.txt"`
                 }
             },
+            DIRECTORY_TO_USS: {
+                DESCRIPTION: "Upload content to a USS directory from local folder." +
+                             " Files from subdirectories are not uploaded. The USS directory has to exist.",
+                POSITIONALS: {
+                    INPUTDIR: "The local folder the content of which you want to upload to a USS directory.",
+                    USSDIR: "The name of the USS directory to which you want to upload the folder contents."
+                },
+                EXAMPLES: {
+                    EX1: `Upload the contents of the local directory "a/local/folder" to the USS directory "/a/ibmuser"`
+                }
+            },
         },
         OPTIONS: {
             VOLUME: "The volume serial (VOLSER) where the data set resides. You can use this option at any time. However, the VOLSER is required " +

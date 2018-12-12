@@ -450,6 +450,117 @@ export class Upload {
     }
 
     /**
+     * Upload contents of a directory to USS
+     * @param {AbstractSession} session - z/OS connection info
+     * @param {string} inputPath        - Path to the local directory to be uploaded
+     * @param {Buffer} ussBase          - Name of the USS base directory to write to
+     * @param {boolean} binary          - The indicator to upload the file in binary mode
+     * @returns {Promise<object>}
+     */
+    public static async directoryToUSS(session: AbstractSession,
+                                       inputPath: string,
+                                       ussbase: string,
+                                       binary: boolean = false) {
+
+        ImperativeExpect.toNotBeNullOrUndefined(inputPath, ZosFilesMessages.missingInputPath.message);
+        ImperativeExpect.toNotBeNullOrUndefined(ussbase, ZosFilesMessages.missingUssDirectory.message);
+        ImperativeExpect.toNotBeEqual(ussbase, "", ZosFilesMessages.missingUssDirectory.message);
+
+        let uploadFileList: string[] = [];
+        const finalResult: any = [];
+
+        // From the input path, retrieve the list of all files that we are trying to upload.
+        // If input is a file, the return is an array of 1 element,
+        // If input is a directory, the return will be an array of all of it files.
+        // Fail if dir is empty
+        uploadFileList = ZosFilesUtils.getFileListFromPath(inputPath);
+        ImperativeExpect.toNotBeEqual(uploadFileList.length, 0, ZosFilesMessages.emptyLocalDirectory.message);
+
+        // try {
+        //     let tempBase: string = ussbase;
+        //     if (!ussbase.startsWith("/")) {
+        //         tempBase = `/${ussbase}`;
+        //     }
+        //     // const endpoint = `/zosmf/restfiles/fs?path=${ussbase}`;
+        //     const endpoint = path.posix.join(ZosFilesConstants.RESOURCE, ZosFilesConstants.RES_USS_FILES,
+        //         ZosFilesConstants.RES_USS_PATH, tempBase);
+        //     await ZosmfRestClient.getExpectJSON(session, endpoint);
+
+        // } catch (err) {
+        //     return {
+        //         success: false,
+        //         commandResponse: err,
+        //         apiResponse: {
+        //             success: false,
+        //             error: err
+        //         }
+        //     };
+        // }
+
+        // Check if the provided ussBase ends with a slash
+        if (!ussbase.endsWith("/")) {
+            ussbase = `${ussbase}/`;
+        }
+
+        uploadFileList.forEach(async (uploadFile: string) => {
+            const getFileFromPath: string[] = uploadFile.split("\\");
+            const arrLength = getFileFromPath.length - 1;
+            const uploadLocation: string = getFileFromPath[arrLength];
+            const ussname: string = `${ussbase}${uploadLocation}`;
+            const inputFile: string = uploadFile;
+
+            let payload;
+            let result: IUploadResult;
+            try {
+                // read payload from file
+                payload = fs.readFileSync(inputFile);
+
+                await this.bufferToUSSFile(session, ussname, payload, binary);
+                result = {
+                    success: true,
+                    from: inputFile,
+                    to: ussname
+                };
+                } catch (error) {
+                    return {
+                        success: false,
+                        commandResponse: error.message,
+                        apiResponse: result
+                    };
+                }
+
+            });
+        return{
+                success: true,
+                commandResponse: ZosFilesMessages.ussFileUploadedSuccessfully.message,
+                apiResponse: {}
+            };
+
+        // try {
+        //     uploadFileList.forEach(async (uploadFile: string) => {
+
+        //         const getFileFromPath: string[] = uploadFile.split("\\");
+        //         const arrLength = getFileFromPath.length - 1;
+        //         const uploadLocation: string = getFileFromPath[arrLength];
+        //         const ussname: string = `${ussbase}${uploadLocation}`;
+        //         const inputFile: string = uploadFile;
+
+        //         await Upload.fileToUSSFile(session, inputFile, ussname, binary);
+
+        //     });
+        //     return{
+        //         success: true,
+        //         commandResponse: ZosFilesMessages.ussFileUploadedSuccessfully.message,
+        //         apiResponse: []
+        //     };
+
+        // } catch (error) {
+        //     Logger.getAppLogger().error(error);
+        //     throw error;
+        // }
+    }
+
+    /**
      * Get Log
      * @returns {Logger} applicationLogger.
      */

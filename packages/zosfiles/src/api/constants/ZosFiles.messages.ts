@@ -341,6 +341,30 @@ export const ZosFilesMessages: { [key: string]: IMessageDefinition } = {
      */
     nodeJsFsError: {
         message: "Node.js File System API error"
+    },
+
+    /**
+     * Message indicating that no path to local directory was provided
+     * @type {IMessageDefinition}
+     */
+    missingInputPath: {
+        message: "Missing path to local directory"
+    },
+
+    /**
+     * Message indicating that no USS directory was provided
+     * @type {IMessageDefinition}
+     */
+    missingUssDirectory: {
+        message: "Missing USS directory name"
+    },
+
+    /**
+     * Message indicating that provided local directory is empty
+     * @type {IMessageDefinition}
+     */
+    emptyLocalDirectory: {
+        message: "The provided local directory was empty"
     }
 };
 
