@@ -357,6 +357,14 @@ export const ZosFilesMessages: { [key: string]: IMessageDefinition } = {
      */
     emptyLocalDirectory: {
         message: "The provided local directory was empty"
-    }
+    },
+
+    /**
+     * Message indicating that the uss file was downloaded successfully
+     * @type {string}
+     */
+    ussFilesUploadedSuccessfully: {
+        message: "USS files uploaded successfully."
+    },
 };
 

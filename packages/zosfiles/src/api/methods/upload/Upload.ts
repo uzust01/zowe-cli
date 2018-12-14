@@ -521,7 +521,7 @@ export class Upload {
             }
             return{
                 success: true,
-                commandResponse: ZosFilesMessages.ussFileUploadedSuccessfully.message,
+                commandResponse: ZosFilesMessages.ussFilesUploadedSuccessfully.message,
                 apiResponse: {}
             };
         } catch (err) {
