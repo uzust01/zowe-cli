@@ -36,7 +36,7 @@ export const ZosFilesConstants: { [key: string]: any } = {
      * Indicator of a USS File path
      * @type {string}
      */
-    RES_USS_PATH: "?path=",
+    RES_USS_PATH: "/fs?path=",
 
     /**
      * Indicator of a members request

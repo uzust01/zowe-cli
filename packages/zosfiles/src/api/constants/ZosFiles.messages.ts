@@ -344,14 +344,6 @@ export const ZosFilesMessages: { [key: string]: IMessageDefinition } = {
     },
 
     /**
-     * Message indicating that no path to local directory was provided
-     * @type {IMessageDefinition}
-     */
-    missingInputPath: {
-        message: "Missing path to local directory"
-    },
-
-    /**
      * Message indicating that no USS directory was provided
      * @type {IMessageDefinition}
      */
