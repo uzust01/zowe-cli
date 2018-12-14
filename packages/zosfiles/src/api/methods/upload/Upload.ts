@@ -125,7 +125,8 @@ export class Upload {
                 msg: ZosFilesMessages.missingInputDir.message
             });
         }
-
+        // tslint:disable-next-line:no-console
+        console.log(inputDir);
         return this.pathToDataSet(session, inputDir, dataSetName, options);
     }
 
@@ -460,7 +461,7 @@ export class Upload {
     public static async directoryToUSS(session: AbstractSession,
                                        inputPath: string,
                                        ussBase: string,
-                                       binary: boolean = false) {
+                                       binary: boolean): Promise<IZosFilesResponse> {
 
         ImperativeExpect.toNotBeNullOrUndefined(inputPath, ZosFilesMessages.missingInputDir.message);
         ImperativeExpect.toNotBeNullOrUndefined(ussBase, ZosFilesMessages.missingUssDirectory.message);
@@ -524,13 +525,13 @@ export class Upload {
                 commandResponse: ZosFilesMessages.ussFilesUploadedSuccessfully.message,
                 apiResponse: {}
             };
-        } catch (err) {
+        } catch (error) {
             return{
                 success: false,
-                commandResponse: err,
+                commandResponse: error,
                 apiResponse: {
                     success: false,
-                    err
+                    error
                 }
             };
         }

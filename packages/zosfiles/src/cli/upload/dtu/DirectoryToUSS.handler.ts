@@ -29,6 +29,8 @@ export default class DirectoryToUssHandler extends ZosFilesBaseHandler {
             to: commandParameters.arguments.ussbase
         });
         commandParameters.response.console.log(formatMessage);
+
         return response;
+
     }
 }

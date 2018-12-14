@@ -12,6 +12,7 @@
 import * as path from "path";
 import { ICommandDefinition } from "@brightside/imperative";
 import { UploadOptions } from "../Upload.options";
+import { ZosmfSession } from "../../../../../zosmf";
 
 import i18nTypings from "../../-strings-/en";
 
@@ -29,7 +30,7 @@ export const DirectoryToUSSDefinition: ICommandDefinition = {
     type: "command",
     handler: path.join(__dirname, "/DirectoryToUSS.handler"),
     profile: {
-        required: ["zosmf"],
+        optional: ["zosmf"],
     },
     positionals: [
         {
