@@ -461,8 +461,7 @@ export class Upload {
     public static async directoryToUSS(session: AbstractSession,
                                        inputDir: string,
                                        ussBase: string,
-                                       binary: boolean): Promise<IZosFilesResponse> {
-
+                                       binary: boolean = false): Promise<IZosFilesResponse> {
         ImperativeExpect.toNotBeNullOrUndefined(inputDir, ZosFilesMessages.missingInputDir.message);
         ImperativeExpect.toNotBeNullOrUndefined(ussBase, ZosFilesMessages.missingUssDirectory.message);
         ImperativeExpect.toNotBeEqual(ussBase, "", ZosFilesMessages.missingUssDirectory.message);
