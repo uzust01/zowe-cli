@@ -34,20 +34,20 @@ export const DirectoryToUSSDefinition: ICommandDefinition = {
     },
     positionals: [
         {
-            name: "inputpath",
+            name: "inputdir",
             description: strings.POSITIONALS.INPUTDIR,
             type: "string",
             required: true
         },
         {
-            name: "ussbase",
+            name: "ussBase",
             description: strings.POSITIONALS.USSDIR,
             type: "string",
             required: true
         },
     ],
     options: [
-        UploadOptions.binary
+        UploadOptions.binary,
     ],
     examples: [
         {

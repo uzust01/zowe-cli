@@ -22,11 +22,11 @@ export default class DirectoryToUssHandler extends ZosFilesBaseHandler {
     public async processWithSession(commandParameters: IHandlerParameters,
                                     session: AbstractSession): Promise<IZosFilesResponse> {
 
-        const response = Upload.directoryToUSS(session, commandParameters.arguments.inputpath,
-            commandParameters.arguments.ussbase, commandParameters.arguments.binary);
+        const response = await Upload.directoryToUSS(session, commandParameters.arguments.inputdir,
+            commandParameters.arguments.ussBase, commandParameters.arguments.binary);
         const formatMessage = TextUtils.prettyJson({
-            from: commandParameters.arguments.inputpath,
-            to: commandParameters.arguments.ussbase
+            from: commandParameters.arguments.inputdir,
+            to: commandParameters.arguments.ussBase
         });
         commandParameters.response.console.log(formatMessage);
 

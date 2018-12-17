@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Upload dir-to-pds handler process method should upload a directory to a USS if requested 1`] = `
+Object {
+  "apiResponse": Object {},
+  "commandResponse": "uploaded",
+  "success": true,
+}
+`;
+
+exports[`Upload dir-to-pds handler process method should upload a directory to a USS if requested 2`] = `""`;
+
+exports[`Upload dir-to-pds handler process method should upload a directory to a USS if requested 3`] = `
+"
+[33mfrom: [39mtest-dir
+[33mto: [39m  testing
+
+
+uploaded"
+`;

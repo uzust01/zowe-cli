@@ -459,11 +459,11 @@ export class Upload {
      * @returns {Promise<object>}
      */
     public static async directoryToUSS(session: AbstractSession,
-                                       inputPath: string,
+                                       inputDir: string,
                                        ussBase: string,
                                        binary: boolean): Promise<IZosFilesResponse> {
 
-        ImperativeExpect.toNotBeNullOrUndefined(inputPath, ZosFilesMessages.missingInputDir.message);
+        ImperativeExpect.toNotBeNullOrUndefined(inputDir, ZosFilesMessages.missingInputDir.message);
         ImperativeExpect.toNotBeNullOrUndefined(ussBase, ZosFilesMessages.missingUssDirectory.message);
         ImperativeExpect.toNotBeEqual(ussBase, "", ZosFilesMessages.missingUssDirectory.message);
 
@@ -473,7 +473,7 @@ export class Upload {
         // If input is a file, the return is an array of 1 element,
         // If input is a directory, the return will be an array of all of it files.
         // Fail if dir is empty
-        uploadFileList = ZosFilesUtils.getFileListFromPath(inputPath);
+        uploadFileList = ZosFilesUtils.getFileListFromPath(inputDir);
         ImperativeExpect.toNotBeEqual(uploadFileList.length, 0, ZosFilesMessages.emptyLocalDirectory.message);
 
         // Check if the provided ussBase ends with a slash
@@ -482,7 +482,7 @@ export class Upload {
         }
 
         const promise = new Promise((resolve, reject) => {
-            fs.lstat(inputPath, (err, stats) => {
+            fs.lstat(inputDir, (err, stats) => {
                 if (err == null && !stats.isFile()) {
                     resolve(true);
                 } else if (err == null) {
@@ -505,7 +505,7 @@ export class Upload {
 
         await promise;
 
-        if (!IO.isDir(inputPath)) {
+        if (!IO.isDir(inputDir)) {
             throw new ImperativeError({
                 msg: ZosFilesMessages.missingInputDir.message
             });
