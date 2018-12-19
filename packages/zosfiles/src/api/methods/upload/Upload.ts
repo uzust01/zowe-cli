@@ -125,8 +125,7 @@ export class Upload {
                 msg: ZosFilesMessages.missingInputDir.message
             });
         }
-        // tslint:disable-next-line:no-console
-        console.log(inputDir);
+
         return this.pathToDataSet(session, inputDir, dataSetName, options);
     }
 
